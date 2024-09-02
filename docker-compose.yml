@@ -1,0 +1,29 @@
+services:
+    app:
+        build:
+            dockerfile: Dockerfile
+            context: docker
+        environment:
+            - DOCKER_ROOT_DIRECTORY=/var/www/html
+            - DOCKER_ROOT_FILE=public/index.php
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - postgres
+        ports:
+            - 8000:8080
+
+    postgres:
+        image: postgres:latest
+        ports:
+            - 54320:5432
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_HOST_AUTH_METHOD=trust
+            - POSTGRES_DB=book-club
+        volumes:
+            - postgres:/var/lib/postgresql/data
+
+volumes:
+    postgres:
+        driver: local
