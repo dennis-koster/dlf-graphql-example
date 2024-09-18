@@ -23,6 +23,15 @@ type Mutation {
     register(input: RegisterInput! @spread): User! @create
 }
 
+extend type Mutation {
+    resetUserPassword(input: ResetUserPasswordInput! @spread): String! @field(resolver: "App\\GraphQL\\Mutations\\ResetUserPassword")
+}
+
+input ResetUserPasswordInput {
+    id: ID! @rules(apply: ["exists:users,id"])
+    password: String @rules(apply: ["min:8"])
+}
+
 input RegisterInput {
     name: String!
     email: String! @rules(apply: ["email", "unique:users,email"])
