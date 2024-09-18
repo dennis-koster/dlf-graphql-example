@@ -19,6 +19,16 @@ type Query {
     ): [User!]! @paginate(defaultCount: 10)
 }
 
+type Mutation {
+    register(input: RegisterInput! @spread): User! @create
+}
+
+input RegisterInput {
+    name: String!
+    email: String! @rules(apply: ["email", "unique:users,email"])
+    password: String! @rules(apply: ["min:8"])
+}
+
 "Account of a person who utilizes this application."
 type User {
     "Unique primary key."
@@ -39,3 +49,4 @@ type User {
     "When the account was last updated."
     updated_at: DateTime!
 }
+
