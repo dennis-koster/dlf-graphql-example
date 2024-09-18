@@ -19,6 +19,10 @@ type Query {
     ): [User!]! @paginate(defaultCount: 10)
 }
 
+extend type Query {
+    apiVersion: String! @field(resolver: "App\\GraphQL\\Queries\\ApiVersion")
+}
+
 type Mutation {
     register(input: RegisterInput! @spread): User! @create
 }
