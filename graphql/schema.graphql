@@ -16,7 +16,11 @@ type Query {
     users(
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
+
+      "Filters by created_at."
+      createdAfter: DateTime
+
+    ): [User!]! @paginate(defaultCount: 10, builder: "App\\GraphQL\\Builders\\UsersBuilder")
 }
 
 extend type Query {
